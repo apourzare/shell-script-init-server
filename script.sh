@@ -4,8 +4,8 @@ sudo apt update
 sudo apt upgrade -y
 
 
-read -p "لطفا رمز عبور را وارد کنید : " username
-read -p -s "لطفا رمز عبور را وارد کنید : " password
+read -p "لطفا نام کاربری را وارد کنید : " username
+read -s -p "لطفا رمز عبور را وارد کنید : " password
 
 sudo useradd -m $username
 sudo usermod -aG sudo $username
