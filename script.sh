@@ -4,31 +4,26 @@ sudo apt update
 sudo apt upgrade -y
 
 
-read -p "لطفا نام کاربری را وارد کنید : " username
+read -p "لطفا نام کاربرا وارد کنید : " username
 read -s -p "لطفا رمز عبور را وارد کنید : " password
 
 sudo useradd -m $username
 sudo usermod -aG sudo $username
 echo "$username:$password" | sudo chpasswd
 
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+
+apt-cache policy docker-ce
+
+sudo apt install docker-ce
+
+sudo systemctl status docker
+
+sudo usermod -aG docker ${USER}
+groups
 
 sudo usermod -aG docker $username
-
-sudo systemctl start docker
-
-cat <<EOF | sudo tee /etc/systemd/system/docker-autostart.service
-[Unit]
-Description=Autostart Docker on system boot
-
-[Service]
-ExecStart=/usr/bin/dockerd
-Restart=always
-User=root
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo systemctl enable docker-autostart.service
