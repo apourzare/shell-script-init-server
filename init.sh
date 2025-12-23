@@ -14,3 +14,6 @@ read -s -p "Enter Password : " password
 sudo useradd -m $username
 sudo usermod -aG sudo $username
 echo "$username:$password" | sudo chpasswd
+
+
+sudo usermod -s /bin/bash $username
