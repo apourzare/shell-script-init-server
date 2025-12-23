@@ -15,5 +15,8 @@ sudo useradd -m $username
 sudo usermod -aG sudo $username
 echo "$username:$password" | sudo chpasswd
 
-
+# Set bash as default shell
 sudo usermod -s /bin/bash $username
+
+# Deactivate root user
+sudo passwd -d root
